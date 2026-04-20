@@ -2,7 +2,7 @@
 
 ## 1. 项目概述
 
-**项目名称**：Somebody-Skills（简称 SBD）  
+**项目名称**：Somebody-Skills（简称 SBS）  
 **目标**：开发一套完整的本地化“个体蒸馏”工具，能够将任意目标人物（`somebody`）的数字痕迹转化为可部署的 `.skill` 文件。  
 **核心优势**：全自动环境配置、多源数据采集、超越 `女娲.skill` 的蒸馏质量、一键封装部署。  
 **运行环境**：Node.js 18+ / Python 3.10+，充分利用用户的高性能硬件（例如9950X3D + RTX 5090）进行本地大模型推理与微调。
@@ -23,7 +23,7 @@
 - 检测 GPU 驱动（NVIDIA CUDA 版本 ≥12.8），自动配置 PyTorch 的 CUDA 支持。
 - 若用户缺少上述环境，自动静默安装（Windows 下可通过 winget/choco，macOS 通过 brew，Linux 通过包管理器）。需要管理员权限时提示用户授权。
 - 生成 `.env` 配置文件模板（包含 API Key 占位符，若需调用云端模型则让用户填写；默认优先使用本地模型）。
-- 提供“环境验证”命令（`psd check`），输出详细的健康检查报告。
+- 提供“环境验证”命令（`sbs check`），输出详细的健康检查报告。
 
 ### 2.2 数据收集 —— 多源数据采集
 
@@ -95,7 +95,7 @@
   - `references/`：存放原始数据精华摘要（向量索引）。
   - `scripts/`：若需要运行时调用某些工具（如搜索、计算），可打包 Python/Node 脚本。
 - **打包**：输出为 `{persona_name}.skill.zip` 或直接生成文件夹。
-- **安装辅助**：提供命令 `psd install ./output/somebody.skill`，自动复制到目标工具的 `skills/` 目录（支持 Cursor、Claude Code、Continue 等）。
+- **安装辅助**：提供命令 `sbs install ./output/somebody.skill`，自动复制到目标工具的 `skills/` 目录（支持 Cursor、Claude Code、Continue 等）。
 - **测试对话**：生成后自动启动一个本地对话界面（基于 Gradio 或 TUI），让用户与生成的 skill 交互测试，反馈质量评分。
 
 ## 3. 系统架构
@@ -137,19 +137,19 @@
 ## 5. 模块详细设计
 
 ### 5.1 环境管理器 (EnvManager)
-- 入口：`psd setup`
+- 入口：`sbs setup`
 - 实现策略：
   1. 运行 `node -v`，若不存在则调用包管理器安装 Node LTS。
   2. 运行 `python --version`，若不存在则提示用户安装或自动下载 miniconda。
   3. 创建虚拟环境 `.venv`，安装 `torch` (CUDA 版)、`transformers` 等。
   4. 使用 `npx` 安装必要的 Node 全局工具。
-- 配置文件：`~/.psd/config.json` 存储环境路径。
+- 配置文件：`~/.sbs/config.json` 存储环境路径。
 
 ### 5.2 数据采集器 (DataCollector)
 - 爬虫配置：用户需提供目标名称（如“张三”），可选指定平台列表。
 - 针对每个平台实现插件化架构（`src/crawlers/`）。
 - 反爬策略：随机 User-Agent、延迟、使用代理池（可选）。
-- 手动上传：通过 `psd upload --path ./my_data` 复制文件到工作区。
+- 手动上传：通过 `sbs upload --path ./my_data` 复制文件到工作区。
 
 ### 5.3 蒸馏引擎 (DistillationEngine) —— 核心创新区
 - **优于女娲.skill 的具体实现**：
@@ -211,7 +211,7 @@
 
 ## 7. 优于女娲.skill 的量化指标
 
-| 指标                 | 女娲.skill | PSD 目标    | 实现方式                          |
+| 指标                 | 女娲.skill | SBS 目标    | 实现方式                          |
 | -------------------- | ---------- | ----------- | --------------------------------- |
 | 人格维度数量         | ~12        | ≥20         | 双轨+交叉验证                     |
 | 生成一致性（重复生成） | 70%        | ≥85%        | 主动探针+用户反馈                 |

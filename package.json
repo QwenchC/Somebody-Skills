@@ -1,0 +1,45 @@
+{
+  "name": "somebody-skills",
+  "version": "0.1.0",
+  "description": "本地化个体蒸馏工具 — 将任意目标人物的数字痕迹转化为可部署的 .skill 文件",
+  "type": "module",
+  "bin": {
+    "sbs": "./dist/cli/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/cli/index.js",
+    "lint": "eslint src/",
+    "test": "vitest run"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": ["persona", "distillation", "skill", "ai"],
+  "license": "MIT",
+  "dependencies": {
+    "adm-zip": "^0.5.16",
+    "better-sqlite3": "^11.7.0",
+    "chalk": "^5.4.1",
+    "chardet": "^2.0.0",
+    "cheerio": "^1.0.0",
+    "cli-progress": "^3.12.0",
+    "commander": "^13.1.0",
+    "dotenv": "^16.4.7",
+    "handlebars": "^4.7.8",
+    "mammoth": "^1.8.0",
+    "node-html-parser": "^7.0.1",
+    "ora": "^8.2.0",
+    "pdf-parse": "^1.1.1",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "@types/adm-zip": "^0.5.7",
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/cli-progress": "^3.11.6",
+    "@types/node": "^22.13.0",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.0"
+  }
+}

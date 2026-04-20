@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.venv/
+__pycache__/
+*.pyc
+.env
+workspace*/
+*.db
+*.db-journal
+.sbs/
+*.skill.zip
+sbs-debug.log
